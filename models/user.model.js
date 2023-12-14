@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        lowercase:true,
     },
     username: {
         type: String,
@@ -22,7 +23,8 @@ const userSchema = new mongoose.Schema({
     },
     roleType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Role"
+        ref: "Role",
+        required: true,
     },
 }, {timestamps: true});
 
