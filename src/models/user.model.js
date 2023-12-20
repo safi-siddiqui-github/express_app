@@ -1,31 +1,52 @@
-import mongoose from "mongoose";
+import {model, Schema} from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
+const userSchema = new Schema(
+  {
+    fullname: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase:true,
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
     username: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      index: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: [true, "Password is required!"],
     },
-    roleType: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Role",
-        required: true,
+    avatar: {
+      type: String, // cloudinary url
+      required: true,
     },
-}, {timestamps: true});
+    coverImage: {
+      type: String,
+      required: true,
+    },
+    watchHistory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Video",
+      },
+    ],
+    refreshToken: {
+      type: String,
+    },
+  },
+  {timestamps: true}
+);
 
-export const User = mongoose.model("User", userSchema);
+userSchema.pre("save", () => {});
+
+export const User = model("User", userSchema);
